@@ -26,3 +26,14 @@ document.querySelectorAll(".sidebar nav a").forEach((link) => {
     mobileToggle.setAttribute("aria-expanded", "false");
   });
 });
+
+// Emails are kept out of the raw HTML (data-u/data-d parts) and only
+// assembled into a real mailto: link here, so plain-text scrapers of
+// the page source never see a harvestable address.
+document.querySelectorAll(".obf-email").forEach((el) => {
+  const address = `${el.dataset.u}@${el.dataset.d}`;
+  const link = document.createElement("a");
+  link.href = `mailto:${address}`;
+  link.textContent = address;
+  el.replaceWith(link);
+});
